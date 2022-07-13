@@ -36,4 +36,4 @@ const called = (calledOn) => {
     io.emit('move', calledOn)
 }
 
-server.listen(80)
+server.listen(process.env.PORT || 3000)
