@@ -11,6 +11,10 @@ const io = new Server(server, {
 
 let floors = 4;
 
+app.get("", (req,res) => {
+    res.send("Lift simulation backend")
+})
+
 io.on('connection',(socket) => {
     console.log('A user connected')
     socket.on('addfloor', () => {
