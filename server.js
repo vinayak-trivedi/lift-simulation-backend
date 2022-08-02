@@ -7,33 +7,36 @@ const io = new Server(server, {
     cors: {
       origins: ['http://127.0.0.1:5500/']
     }
-  });
-
-let floors = 4;
-
-app.get("", (req,res) => {
-    res.send("Lift simulation backend")
+});
+app.get('/', (req, res) => {
+    res.send("lift-simulation-backend")
 })
 
 io.on('connection',(socket) => {
+    const userDevice =socket.handshake.query.userdevice;  
     console.log('A user connected')
+    console.log(userDevice)
+    socket.on('create', (room) => {
+        socket.join(room)
+        console.log(`Joined room ${room}`)
+    })
     socket.on('addfloor', () => {
-        io.emit('addfloor', ++floors)
+        io.to(userDevice).emit('addfloor', ++floors)
     })
     socket.on('removefloor',() => {
-        io.emit('removefloor', --floors)
+        io.to(userDevice).emit('removefloor', --floors)
     })
     socket.on('addlift', () => {
-        io.emit('addlift')
+        io.to(userDevice).emit('addlift')
     })
     socket.on('removelift', () => {
-        io.emit('removelift')
+        io.to(userDevice).emit('removelift')
     })
     socket.on('called', called)
+
 })
 
-const called = (calledOn) => {
-    io.emit('move', calledOn)
+const called = (calledOn, device) => {
+    io.to(device).emit('move', calledOn)
 }
-
-server.listen(process.env.PORT || 3000)
+server.listen(process.env.PORT || 4000)
