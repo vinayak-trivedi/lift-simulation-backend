@@ -1,6 +1,9 @@
 {
   "name": "lift-simulation-backend",
   "version": "1.0.0",
+  "engines": {
+    "node": "16.13.0"
+  },
   "description": "",
   "main": "server.js",
   "scripts": {
