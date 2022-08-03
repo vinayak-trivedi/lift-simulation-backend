@@ -39,4 +39,4 @@ io.on('connection',(socket) => {
 const called = (calledOn, device) => {
     io.to(device).emit('move', calledOn)
 }
-server.listen(process.env.PORT || 3000)
+server.listen(process.env.PORT)
